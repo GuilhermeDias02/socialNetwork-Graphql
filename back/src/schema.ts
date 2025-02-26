@@ -2,26 +2,13 @@ import gql from "graphql-tag";
 
 export const typeDefs = gql`
   type Query {
+    getArticles(): [Article]!
+    getArticlesByUser(username: String!): [Articles]!
   }
 
   type Mutation {
-    incrementNumberOfLikes(id: ID!): IncrementNumberOfLikesReponse!
     createUser(username: String!, password: String!): CreateUserResponse!
     signIn(username: String!, password: String!): SignInResponse!
-  }
-
-  type IncrementTrackViewReponse {
-    code: Int!
-    success: Boolean!
-    message: String!
-    track: Track
-  }
-
-  type IncrementNumberOfLikesReponse {
-    code: Int!
-    success: Boolean!
-    message: String!
-    track: Track
   }
 
   type CreateUserResponse {
@@ -40,5 +27,12 @@ export const typeDefs = gql`
   type User {
     id: ID!
     username: String!
+  }
+
+  type Article {
+    id: ID!
+    text: String!
+    postDate: date
+    user: User!
   }
 `;
