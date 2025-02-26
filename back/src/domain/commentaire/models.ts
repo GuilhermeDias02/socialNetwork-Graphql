@@ -5,6 +5,6 @@ export const CommentaireResolver: Resolvers['Commentaire'] = {
     return dataSources.db.user.findFirstOrThrow({where: {id: userId}})
   },
   article: ({id}, _, {dataSources}) => {
-    return dataSources.db.article.findUniqueOrThrow({where: {id: id}});
+    return dataSources.db.article.findFirstOrThrow({where: {id: id}});
   },
 }

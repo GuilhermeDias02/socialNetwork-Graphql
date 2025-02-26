@@ -57,7 +57,6 @@ export type DeleteArticleResponse = {
 export type DeleteCommentaireResponse = {
   __typename?: 'DeleteCommentaireResponse';
   code: Scalars['Int']['output'];
-  commentaire?: Maybe<Commentaire>;
   message: Scalars['String']['output'];
   success: Scalars['Boolean']['output'];
 };
@@ -250,7 +249,7 @@ export type ResolversTypes = {
   CreateUserResponse: ResolverTypeWrapper<CreateUserResponse>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   DeleteArticleResponse: ResolverTypeWrapper<DeleteArticleResponse>;
-  DeleteCommentaireResponse: ResolverTypeWrapper<Omit<DeleteCommentaireResponse, 'commentaire'> & { commentaire?: Maybe<ResolversTypes['Commentaire']> }>;
+  DeleteCommentaireResponse: ResolverTypeWrapper<DeleteCommentaireResponse>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Like: ResolverTypeWrapper<LikeModel>;
@@ -271,7 +270,7 @@ export type ResolversParentTypes = {
   CreateUserResponse: CreateUserResponse;
   DateTime: Scalars['DateTime']['output'];
   DeleteArticleResponse: DeleteArticleResponse;
-  DeleteCommentaireResponse: Omit<DeleteCommentaireResponse, 'commentaire'> & { commentaire?: Maybe<ResolversParentTypes['Commentaire']> };
+  DeleteCommentaireResponse: DeleteCommentaireResponse;
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
   Like: LikeModel;
@@ -324,7 +323,6 @@ export type DeleteArticleResponseResolvers<ContextType = Context, ParentType ext
 
 export type DeleteCommentaireResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DeleteCommentaireResponse'] = ResolversParentTypes['DeleteCommentaireResponse']> = {
   code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  commentaire?: Resolver<Maybe<ResolversTypes['Commentaire']>, ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

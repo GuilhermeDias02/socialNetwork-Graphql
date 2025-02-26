@@ -11,12 +11,14 @@ export const postCommentaire: NonNullable<MutationResolvers['postCommentaire']> 
                 articleId: articleId
             }
         });
+        
+        console.log(createdCommentaire)
 
         return {
             code: 201,
-            message: 'Article has been created',
+            message: 'Commentaire has been created',
             success: true,
-            article: createdCommentaire
+            commentaire: createdCommentaire
         }
     } catch (e) {
         if (e instanceof Error) {
@@ -24,14 +26,14 @@ export const postCommentaire: NonNullable<MutationResolvers['postCommentaire']> 
                 code: 400,
                 message: e.message,
                 success: false,
-                article: null
+                commentaire: null
             }
         }
         return {
             code: 400,
             message: 'Commentaire has not been created',
             success: false,
-            article: null
+            commentaire: null
         }
     }
 }

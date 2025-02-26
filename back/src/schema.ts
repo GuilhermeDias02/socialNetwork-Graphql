@@ -58,7 +58,6 @@ export const typeDefs = gql`
     code: Int!
     success: Boolean!
     message: String!
-    commentaire: Commentaire
   }
 
   type User {

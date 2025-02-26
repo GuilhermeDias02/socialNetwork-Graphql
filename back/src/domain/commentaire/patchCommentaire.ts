@@ -18,7 +18,7 @@ export const patchCommentaire: NonNullable<MutationResolvers['patchCommentaire']
             code: 204,
             message: 'Commentaire has been updated',
             success: true,
-            article: updatedCommentaire
+            commentaire: updatedCommentaire
         }
     } catch (e) {
         if (e instanceof Error) {
@@ -26,14 +26,14 @@ export const patchCommentaire: NonNullable<MutationResolvers['patchCommentaire']
                 code: 400,
                 message: e.message,
                 success: false,
-                article: null
+                commentaire: null
             }
         }
         return {
             code: 400,
             message: 'Commentaire has not been updated',
             success: false,
-            article: null
+            commentaire: null
         }
     }
 }
