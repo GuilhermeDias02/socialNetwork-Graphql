@@ -10,9 +10,7 @@ export const postLikeArticle: NonNullable<MutationResolvers['postLikeArticle']> 
                 userId: user.id
             }
         });
-        if (alreadyLiked.length !== 0){
-            throw new Error('This user has already liked this article');
-        }
+        if (alreadyLiked.length !== 0) throw new Error('This user has already liked this article');
 
         const createdLike = await db.like.create({
             data: {
