@@ -7,7 +7,12 @@ const config: CodegenConfig = {
       plugins: ["typescript", "typescript-resolvers"],
       config: {
         contextType: './context#Context',
-      }
+        mappers: {
+            Article: "./models#ArticleModel",
+            Commentaire: "./models#CommentaireModel",
+            Like: "./models#LikeModel",
+        }
+      },
     }
   }
 }

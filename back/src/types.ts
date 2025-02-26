@@ -1,4 +1,5 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import { ArticleModel, CommentaireModel, LikeModel } from './models';
 import { Context } from './context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -20,6 +21,17 @@ export type Scalars = {
 
 export type Article = {
   __typename?: 'Article';
+  commentaires: Array<Maybe<Commentaire>>;
+  id: Scalars['ID']['output'];
+  likes: Array<Maybe<Like>>;
+  postDate?: Maybe<Scalars['DateTime']['output']>;
+  text: Scalars['String']['output'];
+  user: User;
+};
+
+export type Commentaire = {
+  __typename?: 'Commentaire';
+  article: Article;
   id: Scalars['ID']['output'];
   postDate?: Maybe<Scalars['DateTime']['output']>;
   text: Scalars['String']['output'];
@@ -32,6 +44,13 @@ export type CreateUserResponse = {
   message: Scalars['String']['output'];
   success: Scalars['Boolean']['output'];
   user?: Maybe<User>;
+};
+
+export type Like = {
+  __typename?: 'Like';
+  article: Article;
+  id: Scalars['ID']['output'];
+  user: User;
 };
 
 export type Mutation = {
@@ -60,7 +79,7 @@ export type Query = {
 
 
 export type QueryGetArticlesByUserArgs = {
-  username: Scalars['String']['input'];
+  userId: Scalars['ID']['input'];
 };
 
 export type SignInResponse = {
@@ -148,12 +167,14 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Article: ResolverTypeWrapper<Article>;
+  Article: ResolverTypeWrapper<ArticleModel>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  Commentaire: ResolverTypeWrapper<CommentaireModel>;
   CreateUserResponse: ResolverTypeWrapper<CreateUserResponse>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  Like: ResolverTypeWrapper<LikeModel>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   SignInResponse: ResolverTypeWrapper<SignInResponse>;
@@ -163,12 +184,14 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Article: Article;
+  Article: ArticleModel;
   Boolean: Scalars['Boolean']['output'];
+  Commentaire: CommentaireModel;
   CreateUserResponse: CreateUserResponse;
   DateTime: Scalars['DateTime']['output'];
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
+  Like: LikeModel;
   Mutation: {};
   Query: {};
   SignInResponse: SignInResponse;
@@ -177,6 +200,17 @@ export type ResolversParentTypes = {
 };
 
 export type ArticleResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Article'] = ResolversParentTypes['Article']> = {
+  commentaires?: Resolver<Array<Maybe<ResolversTypes['Commentaire']>>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  likes?: Resolver<Array<Maybe<ResolversTypes['Like']>>, ParentType, ContextType>;
+  postDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CommentaireResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Commentaire'] = ResolversParentTypes['Commentaire']> = {
+  article?: Resolver<ResolversTypes['Article'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   postDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -196,6 +230,13 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'DateTime';
 }
 
+export type LikeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Like'] = ResolversParentTypes['Like']> = {
+  article?: Resolver<ResolversTypes['Article'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createUser?: Resolver<ResolversTypes['CreateUserResponse'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'password' | 'username'>>;
   signIn?: Resolver<ResolversTypes['SignInResponse'], ParentType, ContextType, RequireFields<MutationSignInArgs, 'password' | 'username'>>;
@@ -203,7 +244,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getArticles?: Resolver<Array<Maybe<ResolversTypes['Article']>>, ParentType, ContextType>;
-  getArticlesByUser?: Resolver<Array<Maybe<ResolversTypes['Article']>>, ParentType, ContextType, RequireFields<QueryGetArticlesByUserArgs, 'username'>>;
+  getArticlesByUser?: Resolver<Array<Maybe<ResolversTypes['Article']>>, ParentType, ContextType, RequireFields<QueryGetArticlesByUserArgs, 'userId'>>;
 };
 
 export type SignInResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['SignInResponse'] = ResolversParentTypes['SignInResponse']> = {
@@ -222,8 +263,10 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
 
 export type Resolvers<ContextType = Context> = {
   Article?: ArticleResolvers<ContextType>;
+  Commentaire?: CommentaireResolvers<ContextType>;
   CreateUserResponse?: CreateUserResponseResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
+  Like?: LikeResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SignInResponse?: SignInResponseResolvers<ContextType>;
