@@ -1,9 +1,10 @@
 import gql from "graphql-tag";
 
 export const typeDefs = gql`
+  scalar DateTime
   type Query {
-    getArticles(): [Article]!
-    getArticlesByUser(username: String!): [Articles]!
+    getArticles: [Article]!
+    getArticlesByUser(username: String!): [Article]!
   }
 
   type Mutation {
@@ -32,7 +33,7 @@ export const typeDefs = gql`
   type Article {
     id: ID!
     text: String!
-    postDate: date
+    postDate: DateTime
     user: User!
   }
 `;

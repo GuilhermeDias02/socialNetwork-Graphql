@@ -7,8 +7,6 @@ const config: CodegenConfig = {
       plugins: ["typescript", "typescript-resolvers"],
       config: {
         contextType: './context#Context',
-        mappers: {
-        }
       }
     }
   }
