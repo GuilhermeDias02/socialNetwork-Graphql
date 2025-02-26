@@ -1,24 +1,20 @@
 import { MutationResolvers } from "../../types.js";
 
-export const patchArticle: NonNullable<MutationResolvers['patchArticle']> = async (_, { id, text }, { user, dataSources: { db } }) => {
+export const deleteCommentaire: NonNullable<MutationResolvers['deleteCommentaire']> = async (_, { id }, { user, dataSources: { db } }) => {
     try {
         if (!user) throw new Error('User is not provided');
 
-        const updatedArticle = await db.article.update({
+        const deletedCommentaire = await db.commentaire.delete({
             where: {
                 id: id,
-                userId: user.id,
-            },
-            data: {
-                text: text,
+                userId: user.id
             }
-        });
+        })
 
         return {
             code: 204,
-            message: 'Article has been updated',
+            message: 'Commentaire has been deleted',
             success: true,
-            article: updatedArticle
         }
     } catch (e) {
         if (e instanceof Error) {
@@ -26,14 +22,12 @@ export const patchArticle: NonNullable<MutationResolvers['patchArticle']> = asyn
                 code: 400,
                 message: e.message,
                 success: false,
-                article: null
             }
         }
         return {
             code: 400,
-            message: 'Article has not been updated',
+            message: 'Commentaire has not been deleted',
             success: false,
-            article: null
         }
     }
 }

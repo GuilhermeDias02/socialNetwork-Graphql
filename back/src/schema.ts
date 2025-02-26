@@ -6,14 +6,21 @@ export const typeDefs = gql`
   type Query {
     getArticles: [Article]!
     getArticlesByUser(userId: ID!): [Article]!
+
+    getCommentairesByArticle(articleId: ID!): [Commentaire]!
   }
 
   type Mutation {
     createUser(username: String!, password: String!): CreateUserResponse!
     signIn(username: String!, password: String!): SignInResponse!
+
     postArticle(text: String!): PostArticleResponse!
     patchArticle(id: ID!, text: String!): PostArticleResponse!
     deleteArticle(id: ID!): DeleteArticleResponse!
+
+    postCommentaire(text: String!, articleId: ID!): PostCommentaireResponse!
+    patchCommentaire(id: ID!, text: String!): PostCommentaireResponse!
+    deleteCommentaire(id: ID!): DeleteCommentaireResponse!
   }
 
   type CreateUserResponse {
@@ -39,6 +46,19 @@ export const typeDefs = gql`
     code: Int!
     success: Boolean!
     message: String!
+  }
+
+  type PostCommentaireResponse {
+    code: Int!
+    success: Boolean!
+    message: String!
+    commentaire: Commentaire
+  }
+  type DeleteCommentaireResponse {
+    code: Int!
+    success: Boolean!
+    message: String!
+    commentaire: Commentaire
   }
 
   type User {

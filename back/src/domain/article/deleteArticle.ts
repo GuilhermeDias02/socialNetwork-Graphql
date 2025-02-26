@@ -10,7 +10,6 @@ export const deleteArticle: NonNullable<MutationResolvers['deleteArticle']> = as
                 userId: user.id
             }
         })
-        console.log(deletedArticle);
 
         return {
             code: 204,
@@ -21,7 +20,7 @@ export const deleteArticle: NonNullable<MutationResolvers['deleteArticle']> = as
         if (e instanceof Error) {
             return {
                 code: 400,
-                message: 'Article has not been deleted',
+                message: e.message,
                 success: false,
             }
         }

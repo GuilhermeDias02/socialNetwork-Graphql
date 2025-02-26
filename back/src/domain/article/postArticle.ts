@@ -21,7 +21,7 @@ export const postArticle: NonNullable<MutationResolvers['postArticle']> = async 
         if (e instanceof Error) {
             return {
                 code: 400,
-                message: 'Article has not been created',
+                message: e.message,
                 success: false,
                 article: null
             }

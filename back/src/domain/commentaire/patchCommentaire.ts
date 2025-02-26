@@ -1,22 +1,24 @@
 import { MutationResolvers } from "../../types.js";
 
-export const postCommentaire: NonNullable<MutationResolvers['postCommentaire']> = async (_, { text, articleId }, { user, dataSources: { db } }) => {
+export const patchCommentaire: NonNullable<MutationResolvers['patchCommentaire']> = async (_, { id, text }, { user, dataSources: { db } }) => {
     try {
         if (!user) throw new Error('User is not provided');
 
-        const createdCommentaire = await db.commentaire.create({
+        const updatedCommentaire = await db.commentaire.update({
+            where: {
+                id: id,
+                userId: user.id,
+            },
             data: {
                 text: text,
-                userId: user.id,
-                articleId: articleId
             }
         });
 
         return {
-            code: 201,
-            message: 'Article has been created',
+            code: 204,
+            message: 'Commentaire has been updated',
             success: true,
-            article: createdCommentaire
+            article: updatedCommentaire
         }
     } catch (e) {
         if (e instanceof Error) {
@@ -29,7 +31,7 @@ export const postCommentaire: NonNullable<MutationResolvers['postCommentaire']> 
         }
         return {
             code: 400,
-            message: 'Commentaire has not been created',
+            message: 'Commentaire has not been updated',
             success: false,
             article: null
         }
