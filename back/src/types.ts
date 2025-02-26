@@ -61,6 +61,13 @@ export type DeleteCommentaireResponse = {
   success: Scalars['Boolean']['output'];
 };
 
+export type DeleteLikeResponse = {
+  __typename?: 'DeleteLikeResponse';
+  code: Scalars['Int']['output'];
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
 export type Like = {
   __typename?: 'Like';
   article: Article;
@@ -73,10 +80,12 @@ export type Mutation = {
   createUser: CreateUserResponse;
   deleteArticle: DeleteArticleResponse;
   deleteCommentaire: DeleteCommentaireResponse;
+  deleteLikeArticle: DeleteLikeResponse;
   patchArticle: PostArticleResponse;
   patchCommentaire: PostCommentaireResponse;
   postArticle: PostArticleResponse;
   postCommentaire: PostCommentaireResponse;
+  postLikeArticle: PostLikeResponse;
   signIn: SignInResponse;
 };
 
@@ -94,6 +103,11 @@ export type MutationDeleteArticleArgs = {
 
 export type MutationDeleteCommentaireArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteLikeArticleArgs = {
+  articleId: Scalars['ID']['input'];
 };
 
 
@@ -120,6 +134,11 @@ export type MutationPostCommentaireArgs = {
 };
 
 
+export type MutationPostLikeArticleArgs = {
+  articleId: Scalars['ID']['input'];
+};
+
+
 export type MutationSignInArgs = {
   password: Scalars['String']['input'];
   username: Scalars['String']['input'];
@@ -137,6 +156,14 @@ export type PostCommentaireResponse = {
   __typename?: 'PostCommentaireResponse';
   code: Scalars['Int']['output'];
   commentaire?: Maybe<Commentaire>;
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
+export type PostLikeResponse = {
+  __typename?: 'PostLikeResponse';
+  code: Scalars['Int']['output'];
+  like?: Maybe<Like>;
   message: Scalars['String']['output'];
   success: Scalars['Boolean']['output'];
 };
@@ -250,12 +277,14 @@ export type ResolversTypes = {
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   DeleteArticleResponse: ResolverTypeWrapper<DeleteArticleResponse>;
   DeleteCommentaireResponse: ResolverTypeWrapper<DeleteCommentaireResponse>;
+  DeleteLikeResponse: ResolverTypeWrapper<DeleteLikeResponse>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Like: ResolverTypeWrapper<LikeModel>;
   Mutation: ResolverTypeWrapper<{}>;
   PostArticleResponse: ResolverTypeWrapper<Omit<PostArticleResponse, 'article'> & { article?: Maybe<ResolversTypes['Article']> }>;
   PostCommentaireResponse: ResolverTypeWrapper<Omit<PostCommentaireResponse, 'commentaire'> & { commentaire?: Maybe<ResolversTypes['Commentaire']> }>;
+  PostLikeResponse: ResolverTypeWrapper<Omit<PostLikeResponse, 'like'> & { like?: Maybe<ResolversTypes['Like']> }>;
   Query: ResolverTypeWrapper<{}>;
   SignInResponse: ResolverTypeWrapper<SignInResponse>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
@@ -271,12 +300,14 @@ export type ResolversParentTypes = {
   DateTime: Scalars['DateTime']['output'];
   DeleteArticleResponse: DeleteArticleResponse;
   DeleteCommentaireResponse: DeleteCommentaireResponse;
+  DeleteLikeResponse: DeleteLikeResponse;
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
   Like: LikeModel;
   Mutation: {};
   PostArticleResponse: Omit<PostArticleResponse, 'article'> & { article?: Maybe<ResolversParentTypes['Article']> };
   PostCommentaireResponse: Omit<PostCommentaireResponse, 'commentaire'> & { commentaire?: Maybe<ResolversParentTypes['Commentaire']> };
+  PostLikeResponse: Omit<PostLikeResponse, 'like'> & { like?: Maybe<ResolversParentTypes['Like']> };
   Query: {};
   SignInResponse: SignInResponse;
   String: Scalars['String']['output'];
@@ -328,6 +359,13 @@ export type DeleteCommentaireResponseResolvers<ContextType = Context, ParentType
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type DeleteLikeResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DeleteLikeResponse'] = ResolversParentTypes['DeleteLikeResponse']> = {
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type LikeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Like'] = ResolversParentTypes['Like']> = {
   article?: Resolver<ResolversTypes['Article'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -339,10 +377,12 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   createUser?: Resolver<ResolversTypes['CreateUserResponse'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'password' | 'username'>>;
   deleteArticle?: Resolver<ResolversTypes['DeleteArticleResponse'], ParentType, ContextType, RequireFields<MutationDeleteArticleArgs, 'id'>>;
   deleteCommentaire?: Resolver<ResolversTypes['DeleteCommentaireResponse'], ParentType, ContextType, RequireFields<MutationDeleteCommentaireArgs, 'id'>>;
+  deleteLikeArticle?: Resolver<ResolversTypes['DeleteLikeResponse'], ParentType, ContextType, RequireFields<MutationDeleteLikeArticleArgs, 'articleId'>>;
   patchArticle?: Resolver<ResolversTypes['PostArticleResponse'], ParentType, ContextType, RequireFields<MutationPatchArticleArgs, 'id' | 'text'>>;
   patchCommentaire?: Resolver<ResolversTypes['PostCommentaireResponse'], ParentType, ContextType, RequireFields<MutationPatchCommentaireArgs, 'id' | 'text'>>;
   postArticle?: Resolver<ResolversTypes['PostArticleResponse'], ParentType, ContextType, RequireFields<MutationPostArticleArgs, 'text'>>;
   postCommentaire?: Resolver<ResolversTypes['PostCommentaireResponse'], ParentType, ContextType, RequireFields<MutationPostCommentaireArgs, 'articleId' | 'text'>>;
+  postLikeArticle?: Resolver<ResolversTypes['PostLikeResponse'], ParentType, ContextType, RequireFields<MutationPostLikeArticleArgs, 'articleId'>>;
   signIn?: Resolver<ResolversTypes['SignInResponse'], ParentType, ContextType, RequireFields<MutationSignInArgs, 'password' | 'username'>>;
 };
 
@@ -357,6 +397,14 @@ export type PostArticleResponseResolvers<ContextType = Context, ParentType exten
 export type PostCommentaireResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PostCommentaireResponse'] = ResolversParentTypes['PostCommentaireResponse']> = {
   code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   commentaire?: Resolver<Maybe<ResolversTypes['Commentaire']>, ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PostLikeResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PostLikeResponse'] = ResolversParentTypes['PostLikeResponse']> = {
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  like?: Resolver<Maybe<ResolversTypes['Like']>, ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -389,10 +437,12 @@ export type Resolvers<ContextType = Context> = {
   DateTime?: GraphQLScalarType;
   DeleteArticleResponse?: DeleteArticleResponseResolvers<ContextType>;
   DeleteCommentaireResponse?: DeleteCommentaireResponseResolvers<ContextType>;
+  DeleteLikeResponse?: DeleteLikeResponseResolvers<ContextType>;
   Like?: LikeResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   PostArticleResponse?: PostArticleResponseResolvers<ContextType>;
   PostCommentaireResponse?: PostCommentaireResponseResolvers<ContextType>;
+  PostLikeResponse?: PostLikeResponseResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SignInResponse?: SignInResponseResolvers<ContextType>;
   User?: UserResolvers<ContextType>;

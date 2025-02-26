@@ -21,6 +21,9 @@ export const typeDefs = gql`
     postCommentaire(text: String!, articleId: ID!): PostCommentaireResponse!
     patchCommentaire(id: ID!, text: String!): PostCommentaireResponse!
     deleteCommentaire(id: ID!): DeleteCommentaireResponse!
+
+    postLikeArticle(articleId: ID!): PostLikeResponse!
+    deleteLikeArticle(articleId: ID!): DeleteLikeResponse!
   }
 
   type CreateUserResponse {
@@ -55,6 +58,18 @@ export const typeDefs = gql`
     commentaire: Commentaire
   }
   type DeleteCommentaireResponse {
+    code: Int!
+    success: Boolean!
+    message: String!
+  }
+
+  type PostLikeResponse {
+    code: Int!
+    success: Boolean!
+    message: String!
+    like: Like
+  }
+  type DeleteLikeResponse {
     code: Int!
     success: Boolean!
     message: String!
