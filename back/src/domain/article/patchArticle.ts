@@ -1,34 +1,37 @@
 import { MutationResolvers } from "../../types.js";
 
-export const postArticle: NonNullable<MutationResolvers['postArticle']> = async (_, { text }, { user, dataSources: { db } }) => {
+export const patchArticle: NonNullable<MutationResolvers['patchArticle']> = async (_, { id, text }, { user, dataSources: { db } }) => {
     try {
         if (!user) throw new Error('User is not provided');
 
-        const createdArticle = await db.article.create({
+        const updatedArticle = await db.article.update({
+            where: {
+                id: id,
+                userId: user.id,
+            },
             data: {
                 text: text,
-                userId: user.id
             }
         });
 
         return {
-            code: 201,
-            message: 'Article has been created',
+            code: 204,
+            message: 'Article has been updated',
             success: true,
-            article: createdArticle
+            article: updatedArticle
         }
     } catch (e) {
         if (e instanceof Error) {
             return {
                 code: 400,
-                message: 'Article has not been created',
+                message: 'Article has not been updated',
                 success: false,
                 article: null
             }
         }
         return {
             code: 400,
-            message: 'Article has not been created',
+            message: 'Article has not been updated',
             success: false,
             article: null
         }
