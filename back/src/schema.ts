@@ -11,6 +11,7 @@ export const typeDefs = gql`
   type Mutation {
     createUser(username: String!, password: String!): CreateUserResponse!
     signIn(username: String!, password: String!): SignInResponse!
+    postArticle(text: String!): postArticleResponse!
   }
 
   type CreateUserResponse {
@@ -24,6 +25,12 @@ export const typeDefs = gql`
     success: Boolean!
     message: String!
     token: String
+  }
+  type postArticleResponse {
+    code: Int!
+    success: Boolean!
+    message: String!
+    article: Article
   }
 
   type User {

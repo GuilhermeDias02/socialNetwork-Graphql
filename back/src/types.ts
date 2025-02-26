@@ -8,6 +8,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -56,6 +57,7 @@ export type Like = {
 export type Mutation = {
   __typename?: 'Mutation';
   createUser: CreateUserResponse;
+  postArticle: PostArticleResponse;
   signIn: SignInResponse;
 };
 
@@ -63,6 +65,11 @@ export type Mutation = {
 export type MutationCreateUserArgs = {
   password: Scalars['String']['input'];
   username: Scalars['String']['input'];
+};
+
+
+export type MutationPostArticleArgs = {
+  text: Scalars['String']['input'];
 };
 
 
@@ -94,6 +101,14 @@ export type User = {
   __typename?: 'User';
   id: Scalars['ID']['output'];
   username: Scalars['String']['output'];
+};
+
+export type PostArticleResponse = {
+  __typename?: 'postArticleResponse';
+  article?: Maybe<Article>;
+  code: Scalars['Int']['output'];
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
 };
 
 
@@ -180,6 +195,7 @@ export type ResolversTypes = {
   SignInResponse: ResolverTypeWrapper<SignInResponse>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   User: ResolverTypeWrapper<User>;
+  postArticleResponse: ResolverTypeWrapper<Omit<PostArticleResponse, 'article'> & { article?: Maybe<ResolversTypes['Article']> }>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -197,6 +213,7 @@ export type ResolversParentTypes = {
   SignInResponse: SignInResponse;
   String: Scalars['String']['output'];
   User: User;
+  postArticleResponse: Omit<PostArticleResponse, 'article'> & { article?: Maybe<ResolversParentTypes['Article']> };
 };
 
 export type ArticleResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Article'] = ResolversParentTypes['Article']> = {
@@ -239,6 +256,7 @@ export type LikeResolvers<ContextType = Context, ParentType extends ResolversPar
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createUser?: Resolver<ResolversTypes['CreateUserResponse'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'password' | 'username'>>;
+  postArticle?: Resolver<ResolversTypes['postArticleResponse'], ParentType, ContextType, RequireFields<MutationPostArticleArgs, 'text'>>;
   signIn?: Resolver<ResolversTypes['SignInResponse'], ParentType, ContextType, RequireFields<MutationSignInArgs, 'password' | 'username'>>;
 };
 
@@ -261,6 +279,14 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type PostArticleResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['postArticleResponse'] = ResolversParentTypes['postArticleResponse']> = {
+  article?: Resolver<Maybe<ResolversTypes['Article']>, ParentType, ContextType>;
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = Context> = {
   Article?: ArticleResolvers<ContextType>;
   Commentaire?: CommentaireResolvers<ContextType>;
@@ -271,5 +297,6 @@ export type Resolvers<ContextType = Context> = {
   Query?: QueryResolvers<ContextType>;
   SignInResponse?: SignInResponseResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
+  postArticleResponse?: PostArticleResponseResolvers<ContextType>;
 };
 

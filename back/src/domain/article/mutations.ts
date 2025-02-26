@@ -1,11 +1,9 @@
 import { MutationResolvers } from "../../types.js";
 import { WithRequired } from "../../utils/mapped-types";
-import { createUser } from "./createUser.js";
-import { signIn } from "./signIn.js";
+import { postArticle } from "./postArticle.js";
 
-type UserMutations = WithRequired<MutationResolvers, 'createUser' | 'signIn'>
+type ArticleMutations = WithRequired<MutationResolvers, 'postArticle'>
 
-export const userMutations: UserMutations = {
-  createUser,
-  signIn, 
+export const articleMutations: ArticleMutations = {
+  postArticle,
 }
