@@ -16,7 +16,7 @@ import { useGetArticlesByUserQuery } from "../generated/graphql";
 import { usePostArticleMutation } from "../generated/graphql";
 import { usePatchArticleMutation } from "../generated/graphql";
 import { useDeleteArticleMutation } from "../generated/graphql";
-// Interface pour extraire userId depuis le token JWT
+
 interface DecodedToken {
   userId: string;
   exp: number;
@@ -36,7 +36,7 @@ const Profile: React.FC = () => {
   const [patchArticle, { loading: updating }] = usePatchArticleMutation();
   const [deleteArticle, { loading: deleting }] = useDeleteArticleMutation();
 
-  // 📌 Récupérer userId depuis le token JWT
+  // Récupérer userId depuis le token JWT
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -53,13 +53,13 @@ const Profile: React.FC = () => {
     }
   }, [navigate]);
 
-  // 📌 Requête pour récupérer les articles de l'utilisateur connecté
+  // Requête pour récupérer les articles de l'utilisateur connecté
   const { data, loading, error, refetch } = useGetArticlesByUserQuery({
     variables: { userId },
     skip: !userId, // 🔹 Évite de faire la requête si `userId` est null
   });
 
-  // 📌 Ajouter un article
+  //  Ajouter un article
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSuccessMessage(null);
@@ -81,7 +81,7 @@ const Profile: React.FC = () => {
     }
   };
 
-  // 📌 Modifier un article
+  //  Modifier un article
   const handleEditArticle = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editArticle) return;
@@ -93,22 +93,22 @@ const Profile: React.FC = () => {
   
       if (data?.patchArticle?.code === 204) {
         setSuccessMessage("✅ Article modifié avec succès !");
-        setErrorMessage(null); // ✅ On enlève tout message d'erreur
-        setEditArticle(null); // ✅ Cache le champ après modification
-        await refetch();  // ✅ Rafraîchit la liste des articles
+        setErrorMessage(null); 
+        setEditArticle(null); 
+        await refetch();  
       } else {
         setErrorMessage(data?.patchArticle?.message || "❌ Une erreur est survenue.");
-        setSuccessMessage(null); // ❌ Supprime le message de succès s'il y a une erreur
+        setSuccessMessage(null); 
       }
     } catch (error) {
       console.error("❌ Erreur lors de la modification :", error);
       setErrorMessage("Impossible de modifier l'article.");
-      setSuccessMessage(null); // ❌ Supprime le message de succès s'il y a une erreur
+      setSuccessMessage(null); 
     }
   };  
     
 
-  // 📌 Supprimer un article
+  // Supprimer un article
   const handleDeleteArticle = async () => {
     if (!deleteArticleId) return;
   
@@ -117,18 +117,18 @@ const Profile: React.FC = () => {
   
       if (data?.deleteArticle?.code === 204) {
         setSuccessMessage("✅ Article supprimé avec succès !");
-        setErrorMessage(null); // ✅ Supprime les erreurs précédentes
+        setErrorMessage(null); 
         setDeleteArticleId(null);
         setShowDeleteModal(false);
-        await refetch();  // ✅ Rafraîchit la liste des articles
+        await refetch();  
       } else {
         setErrorMessage(data?.deleteArticle?.message || "❌ Une erreur est survenue.");
-        setSuccessMessage(null); // ❌ Supprime le message de succès s'il y a une erreur
+        setSuccessMessage(null); 
       }
     } catch (error) {
       console.error("❌ Erreur lors de la suppression :", error);
       setErrorMessage("Impossible de supprimer l'article.");
-      setSuccessMessage(null); // ❌ Supprime le message de succès s'il y a une erreur
+      setSuccessMessage(null); 
     }
   };
   
@@ -136,7 +136,7 @@ const Profile: React.FC = () => {
 
   return (
     <Container className="d-flex flex-column align-items-center mt-4">
-      {/* 📌 Formulaire de Création d'Article */}
+     
       <Card className="p-4 shadow-sm w-50">
         <Card.Title>Créer un nouvel article</Card.Title>
         {successMessage && <Alert variant="success">{successMessage}</Alert>}
@@ -158,7 +158,7 @@ const Profile: React.FC = () => {
         </Form>
       </Card>
 
-      {/* 📌 Affichage des Articles de l'Utilisateur */}
+      
       <Card className="p-4 shadow-sm w-50 mt-4">
         <Card.Title>Mes articles</Card.Title>
         {loading ? (
@@ -174,7 +174,7 @@ const Profile: React.FC = () => {
                         <Form.Control
                           as="textarea"
                           rows={2}
-                          value={editArticle?.text || article.text} // ✅ Correction ici
+                          value={editArticle?.text || article.text} 
                           onChange={(e) =>
                             setEditArticle({ id: article.id, text: e.target.value })
                           }
@@ -209,7 +209,7 @@ const Profile: React.FC = () => {
         )}
       </Card>
 
-      {/* 📌 Modal de confirmation de suppression */}
+      
       <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Confirmation</Modal.Title>
