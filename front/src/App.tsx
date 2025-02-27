@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import Register from './components/Register';
 import Login from './components/Login';
 import Profile from './pages/Profile';
-import { AuthProvider } from './context/AuthContext'; // 📌 Import du contexte
+import { AuthProvider } from './context/AuthContext'; 
 
 const App: React.FC = () => {
   return (
