@@ -27,7 +27,7 @@ const Home: React.FC = () => {
   });
   const [showLastArticles, setShowLastArticles] = useState<boolean>(false);
   const { data: lastArticlesData, refetch: lastArticlesRefetch } = useGetLastArticlesQuery({
-    skip: !showLastArticles, // La requête ne s'exécute que si showLastArticles est true
+    skip: !showLastArticles, 
   });
   
   const location = useLocation();
@@ -95,7 +95,7 @@ const Home: React.FC = () => {
   onClick={() => {
     setShowLastArticles(!showLastArticles);
     if (!showLastArticles) {
-      lastArticlesRefetch(); // Rafraîchir les derniers articles si activé
+      lastArticlesRefetch(); 
     }
   }}
 >
