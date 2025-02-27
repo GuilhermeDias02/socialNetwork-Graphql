@@ -172,12 +172,19 @@ export type Query = {
   __typename?: 'Query';
   getArticles: Array<Maybe<Article>>;
   getArticlesByUser: Array<Maybe<Article>>;
+  getArticlesByUsername: Array<Maybe<Article>>;
   getCommentairesByArticle: Array<Maybe<Commentaire>>;
+  getLastArticles: Array<Maybe<Article>>;
 };
 
 
 export type QueryGetArticlesByUserArgs = {
   userId: Scalars['ID']['input'];
+};
+
+
+export type QueryGetArticlesByUsernameArgs = {
+  username: Scalars['String']['input'];
 };
 
 
@@ -413,7 +420,9 @@ export type PostLikeResponseResolvers<ContextType = Context, ParentType extends 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getArticles?: Resolver<Array<Maybe<ResolversTypes['Article']>>, ParentType, ContextType>;
   getArticlesByUser?: Resolver<Array<Maybe<ResolversTypes['Article']>>, ParentType, ContextType, RequireFields<QueryGetArticlesByUserArgs, 'userId'>>;
+  getArticlesByUsername?: Resolver<Array<Maybe<ResolversTypes['Article']>>, ParentType, ContextType, RequireFields<QueryGetArticlesByUsernameArgs, 'username'>>;
   getCommentairesByArticle?: Resolver<Array<Maybe<ResolversTypes['Commentaire']>>, ParentType, ContextType, RequireFields<QueryGetCommentairesByArticleArgs, 'articleId'>>;
+  getLastArticles?: Resolver<Array<Maybe<ResolversTypes['Article']>>, ParentType, ContextType>;
 };
 
 export type SignInResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['SignInResponse'] = ResolversParentTypes['SignInResponse']> = {

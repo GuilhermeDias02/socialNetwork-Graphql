@@ -6,6 +6,8 @@ export const typeDefs = gql`
   type Query {
     getArticles: [Article]!
     getArticlesByUser(userId: ID!): [Article]!
+    getArticlesByUsername(username: String!): [Article]!
+    getLastArticles: [Article]!
 
     getCommentairesByArticle(articleId: ID!): [Commentaire]!
   }
