@@ -181,7 +181,7 @@ const Home: React.FC = () => {
   </div>
 ))}
 </div>
-
+{loggedInUsername && (
 <InputGroup className="mt-3">
 <Form.Control placeholder="Ajouter un commentaire..." value={commentText[article.id] || ''} onChange={(e) => setCommentText({ ...commentText, [article.id]: e.target.value })} />
 <Button variant="primary" onClick={() => {
@@ -190,6 +190,7 @@ const Home: React.FC = () => {
   refetch();
 }}>Envoyer</Button>
 </InputGroup>
+  )}
 </Card.Body>
 </Card>
 );
