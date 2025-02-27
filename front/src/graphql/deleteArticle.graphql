@@ -1,0 +1,6 @@
+mutation DeleteArticle($deleteArticleId: ID!) {
+  deleteArticle(id: $deleteArticleId) {
+    code
+    message
+  }
+}

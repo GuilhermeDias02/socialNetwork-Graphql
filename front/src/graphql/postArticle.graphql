@@ -1,0 +1,14 @@
+mutation PostArticle($text: String!) {
+  postArticle(text: $text) {
+    code
+    success
+    message
+    article {
+      id
+      text
+      user {
+        username
+      }
+    }
+  }
+}

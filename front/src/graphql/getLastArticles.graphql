@@ -1,0 +1,22 @@
+query GetLastArticles {
+  getLastArticles {
+    id
+    text
+    postDate
+    user {
+      username
+    }
+    likes {
+      user {
+        username
+      }
+    }
+    commentaires {
+      text
+      id
+      user {
+        username
+      }
+    }
+  }
+}

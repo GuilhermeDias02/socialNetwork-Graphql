@@ -1,0 +1,6 @@
+mutation DeleteCommentaire($deleteCommentaireId: ID!) {
+  deleteCommentaire(id: $deleteCommentaireId) {
+    code
+    message
+  }
+}

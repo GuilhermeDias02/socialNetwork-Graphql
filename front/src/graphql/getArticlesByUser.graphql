@@ -1,0 +1,6 @@
+query GetArticlesByUser($userId: ID!) {
+  getArticlesByUser(userId: $userId) {
+    id
+    text
+  }
+}

@@ -1,0 +1,6 @@
+mutation PostLikeArticle($articleId: ID!) {
+  postLikeArticle(articleId: $articleId) {
+    code
+    message
+  }
+}

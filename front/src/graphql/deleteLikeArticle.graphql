@@ -1,0 +1,6 @@
+mutation DeleteLikeArticle($articleId: ID!) {
+  deleteLikeArticle(articleId: $articleId) {
+    code
+    message
+  }
+}
