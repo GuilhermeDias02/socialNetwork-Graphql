@@ -1,0 +1,6 @@
+mutation PatchArticle($patchArticleId: ID!, $text: String!) {
+  patchArticle(id: $patchArticleId, text: $text) {
+    code
+    message
+  }
+}

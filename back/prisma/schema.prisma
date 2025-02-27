@@ -14,13 +14,38 @@ datasource db {
 }
 
 model User {
+    id          String        @id @unique @default(uuid())
+    username    String        @unique
+    password    String
+    Article     Article[]
+    ommentaires Commentaire[]
+    likes       Like[]
 }
 
 model Article {
+    id          String        @id @unique @default(uuid())
+    text        String
+    postDate    DateTime?     @default(now())
+    user        User          @relation(fields: [userId], references: [id])
+    userId      String
+    likes       Like[]
+    commentaires Commentaire[]
 }
 
 model Commentaire {
+    id        String    @id @unique @default(uuid())
+    text      String
+    postDate  DateTime? @default(now())
+    user      User      @relation(fields: [userId], references: [id])
+    userId    String
+    article   Article   @relation(fields: [articleId], references: [id])
+    articleId String
 }
 
 model Like {
+    id        String  @id @unique @default(uuid())
+    user      User    @relation(fields: [userId], references: [id])
+    article   Article @relation(fields: [articleId], references: [id])
+    userId    String
+    articleId String
 }

@@ -1,0 +1,22 @@
+query GetArticlesByUsername($username: String!) {
+  getArticlesByUsername(username: $username) {
+    id
+    text
+    postDate
+    user {
+      username
+    }
+    likes {
+      user {
+        username
+      }
+    }
+    commentaires {
+      text
+      id
+      user {
+        username
+      }
+    }
+  }
+}

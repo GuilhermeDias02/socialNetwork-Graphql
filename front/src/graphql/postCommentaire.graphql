@@ -1,0 +1,6 @@
+mutation PostCommentaire($text: String!, $articleId: ID!) {
+  postCommentaire(text: $text, articleId: $articleId) {
+    code
+    message
+  }
+}

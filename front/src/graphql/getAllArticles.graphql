@@ -1,0 +1,22 @@
+query GetAllArticles {
+  getArticles {
+    id
+    text
+    postDate
+    user {
+      username
+    }
+    likes {
+      user {
+        username
+      }
+    }
+    commentaires {
+      text
+      id
+      user {
+        username
+      }
+    }
+  } 
+}

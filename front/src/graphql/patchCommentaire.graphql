@@ -1,0 +1,6 @@
+mutation PatchCommentaire($patchCommentaireId: ID!, $text: String!) {
+  patchCommentaire(id: $patchCommentaireId, text: $text) {
+    code
+    message
+  }
+}
