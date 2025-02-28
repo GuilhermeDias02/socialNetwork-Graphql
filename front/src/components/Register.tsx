@@ -6,7 +6,7 @@ import { FaUser, FaLock } from 'react-icons/fa';
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
-  const [register, { loading, error }] = useRegisterMutation();
+  const [register, { loading }] = useRegisterMutation();
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -24,7 +24,7 @@ const Register: React.FC = () => {
       } else {
         setErrorMessage(data?.createUser.message || "Échec de l'inscription.");
       }
-    } catch (err) {
+    } catch{
       setErrorMessage("Erreur d'inscription. Veuillez réessayer.");
     }
   };

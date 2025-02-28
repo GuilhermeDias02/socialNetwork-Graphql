@@ -9,7 +9,8 @@ import {
   usePostCommentaireMutation,
   usePatchCommentaireMutation,
   useDeleteCommentaireMutation,
-  useGetLastArticlesQuery 
+  useGetLastArticlesQuery, 
+  Article
 } from "../generated/graphql";
 import { jwtDecode } from 'jwt-decode';
 
@@ -102,9 +103,10 @@ const Home: React.FC = () => {
   {showLastArticles ? "Afficher tous les articles" : "Afficher les 20 derniers articles"}
 </Button>
 
-      {articles?.map((article: string) => {
+      {articles?.filter((article): article is Article => article !== null)
+      .map((article) => {
         const isLiked = loggedInUsername
-          ? article.likes.some((like: string) => like.user.username === loggedInUsername)
+          ? article.likes.some((like) => like?.user.username === loggedInUsername)
           : false;
 
         return (
@@ -139,18 +141,18 @@ const Home: React.FC = () => {
 
               
 <div>
-{article.commentaires.map((comment: string) => (
-  <div key={comment.id} className="mb-2">
-    <strong>{comment.user.username}</strong>: 
-    {editingComment?.id === comment.id ? (
+{article?.commentaires.map((comment) => (
+  <div key={comment?.id} className="mb-2">
+    <strong>{comment?.user.username}</strong>: 
+    {editingComment?.id === comment?.id ? (
       <>
         <input 
           type="text" 
-          value={editingComment.text} 
-          onChange={(e) => setEditingComment({ id: editingComment.id, text: e.target.value })} 
+          value={editingComment?.text??""} 
+          onChange={(e) => setEditingComment({ id: editingComment?.id??"", text: e.target.value })} 
         />
         <Button size="sm" variant="success" onClick={() => {
-          patchCommentaire({ variables: { patchCommentaireId: comment.id, text: editingComment.text } });
+          patchCommentaire({ variables: { patchCommentaireId: comment?.id??"", text: editingComment?.text??"" } });
           setEditingComment(null);
           refetch();
         }}>
@@ -162,14 +164,14 @@ const Home: React.FC = () => {
       </>
     ) : (
       <>
-        <span> {comment.text}</span>
-        {loggedInUsername === comment.user.username && (
+        <span> {comment?.text}</span>
+        {loggedInUsername === comment?.user.username && (
           <>
             <Button size="sm" variant="warning" onClick={() => setEditingComment({ id: comment.id ?? '', text: comment.text })}>
               Modifier
             </Button>
             <Button size="sm" variant="danger" onClick={() => {
-              deleteCommentaire({ variables: { deleteCommentaireId: comment.id } });
+              deleteCommentaire({ variables: { deleteCommentaireId: comment?.id } });
               refetch();
             }}>
               Supprimer

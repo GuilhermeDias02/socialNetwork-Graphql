@@ -7,7 +7,7 @@ import { FaUser, FaLock } from 'react-icons/fa';
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
-  const [signIn, { loading, error }] = useSignInMutation();
+  const [signIn, { loading }] = useSignInMutation();
   const { login } = useAuth();
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -22,12 +22,12 @@ const Login: React.FC = () => {
       const { data } = await signIn({ variables: formData });
 
       if (data?.signIn.success) {
-        login(data.signIn.token);
+        login(data.signIn.token??"");
         navigate('/profile');
       } else {
         setErrorMessage(data?.signIn.message || "Échec de la connexion.");
       }
-    } catch (err) {
+    } catch{
       setErrorMessage("Erreur de connexion. Veuillez réessayer.");
     }
   };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext'; 
-import { Navbar, Nav, Button, Container, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 
 const NavigationBar: React.FC = () => {
   const { isAuthenticated, logout } = useAuth();

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useMutation, useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import {
@@ -12,13 +11,13 @@ import {
   Modal,
 } from "react-bootstrap";
 
-import { useGetArticlesByUserQuery } from "../generated/graphql";
+import { Article, useGetArticlesByUserQuery } from "../generated/graphql";
 import { usePostArticleMutation } from "../generated/graphql";
 import { usePatchArticleMutation } from "../generated/graphql";
 import { useDeleteArticleMutation } from "../generated/graphql";
 
 interface DecodedToken {
-  userId: string;
+  id: string;
   exp: number;
 }
 
@@ -54,10 +53,12 @@ const Profile: React.FC = () => {
   }, [navigate]);
 
   // Requête pour récupérer les articles de l'utilisateur connecté
-  const { data, loading, error, refetch } = useGetArticlesByUserQuery({
-    variables: { userId },
-    skip: !userId, // 🔹 Évite de faire la requête si `userId` est null
-  });
+  const userIdString = userId ?? "";
+const { data, loading, refetch } = useGetArticlesByUserQuery({
+  variables: { userId: userIdString },
+  skip: !userId, 
+});
+
 
   //  Ajouter un article
   const handleSubmit = async (e: React.FormEvent) => {
@@ -162,51 +163,66 @@ const Profile: React.FC = () => {
       <Card className="p-4 shadow-sm w-50 mt-4">
         <Card.Title>Mes articles</Card.Title>
         {loading ? (
-          <div className="text-center"><Spinner animation="border" /></div>
-        ) : (
-          data?.getArticlesByUser?.length > 0 ? (
-            data.getArticlesByUser.map((article: string) => (
-              <Card key={article.id} className="mb-3">
-                <Card.Body>
-                  {editArticle?.id === article.id ? (
-                    <Form onSubmit={handleEditArticle}>
-                      <Form.Group className="mb-3">
-                        <Form.Control
-                          as="textarea"
-                          rows={2}
-                          value={editArticle?.text || article.text} 
-                          onChange={(e) =>
-                            setEditArticle({ id: article.id, text: e.target.value })
-                          }
-                        />
-                      </Form.Group>
-                      <Button variant="success" size="sm" type="submit" disabled={updating}>
-                        {updating ? "Modification..." : "Sauvegarder"}
-                      </Button>
-                      <Button variant="secondary" size="sm" className="ms-2" onClick={() => setEditArticle(null)}>
-                        Annuler
-                      </Button>
-                    </Form>
-                  ) : (
-                    <>
-                      <Card.Text>{article.text}</Card.Text>
-                      <Button variant="warning" size="sm" className="me-2"
-                        onClick={() => setEditArticle({ id: article.id, text: article.text })}>
-                        Modifier
-                      </Button>
-                      <Button variant="danger" size="sm"
-                        onClick={() => { setDeleteArticleId(article.id); setShowDeleteModal(true); }}>
-                        Supprimer
-                      </Button>
-                    </>
-                  )}
-                </Card.Body>
-              </Card>
-            ))
+  <div className="text-center">
+    <Spinner animation="border" />
+  </div>
+) : data && data.getArticlesByUser && data.getArticlesByUser.length > 0 ? (
+  data.getArticlesByUser
+    .filter((article): article is Article => article !== null) 
+    .map((article) => (
+      <Card key={article.id} className="mb-3">
+        <Card.Body>
+          {editArticle?.id === article.id ? (
+            <Form onSubmit={handleEditArticle}>
+              <Form.Group className="mb-3">
+                <Form.Control
+                  as="textarea"
+                  rows={2}
+                  value={editArticle?.text ?? article.text} 
+                  onChange={(e) =>
+                    setEditArticle({ id: article.id, text: e.target.value })
+                  }
+                />
+              </Form.Group>
+              <Button variant="success" size="sm" type="submit" disabled={updating}>
+                {updating ? "Modification..." : "Sauvegarder"}
+              </Button>
+              <Button 
+                variant="secondary" 
+                size="sm" 
+                className="ms-2" 
+                onClick={() => setEditArticle(null)}
+              >
+                Annuler
+              </Button>
+            </Form>
           ) : (
-            <p>Aucun article publié pour le moment.</p>
-          )
-        )}
+            <>
+              <Card.Text>{article.text}</Card.Text>
+              <Button 
+                variant="warning" 
+                size="sm" 
+                className="me-2"
+                onClick={() => setEditArticle({ id: article.id, text: article.text })}
+              >
+                Modifier
+              </Button>
+              <Button 
+                variant="danger" 
+                size="sm"
+                onClick={() => { setDeleteArticleId(article.id); setShowDeleteModal(true); }}
+              >
+                Supprimer
+              </Button>
+            </>
+          )}
+        </Card.Body>
+      </Card>
+    ))
+) : (
+  <p>Aucun article publié pour le moment.</p>
+)}
+
       </Card>
 
       
