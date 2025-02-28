@@ -20,20 +20,31 @@ export type Scalars = {
 
 export type Article = {
   __typename?: 'Article';
+  /** The article's commentaries */
   commentaires: Array<Maybe<Commentaire>>;
+  /** The article's unique identifier */
   id: Scalars['ID']['output'];
+  /** The article's likes */
   likes: Array<Maybe<Like>>;
+  /** The article's post date and time */
   postDate?: Maybe<Scalars['DateTime']['output']>;
+  /** The article's content */
   text: Scalars['String']['output'];
+  /** The user who posted it */
   user: User;
 };
 
 export type Commentaire = {
   __typename?: 'Commentaire';
+  /** The corresponding article */
   article: Article;
+  /** The commentary's unique identifier */
   id: Scalars['ID']['output'];
+  /** The commentary's post date and time */
   postDate?: Maybe<Scalars['DateTime']['output']>;
+  /** The commentary's unique identifier */
   text: Scalars['String']['output'];
+  /** The user who posted it */
   user: User;
 };
 
@@ -68,22 +79,35 @@ export type DeleteLikeResponse = {
 
 export type Like = {
   __typename?: 'Like';
+  /** The liked article */
   article: Article;
+  /** The like's unique identifier */
   id: Scalars['ID']['output'];
+  /** The user who liked the article */
   user: User;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  /** Register a new user */
   createUser: CreateUserResponse;
+  /** Delete the article */
   deleteArticle: DeleteArticleResponse;
+  /** Delete the commentary */
   deleteCommentaire: DeleteCommentaireResponse;
+  /** Unlike a liked article */
   deleteLikeArticle: DeleteLikeResponse;
+  /** Change the article's text */
   patchArticle: PostArticleResponse;
+  /** Change the commentary's text */
   patchCommentaire: PostCommentaireResponse;
+  /** Write a new article */
   postArticle: PostArticleResponse;
+  /** Write a new commentary */
   postCommentaire: PostCommentaireResponse;
+  /** Like an article */
   postLikeArticle: PostLikeResponse;
+  /** Sign in and get a user's token */
   signIn: SignInResponse;
 };
 
@@ -168,10 +192,15 @@ export type PostLikeResponse = {
 
 export type Query = {
   __typename?: 'Query';
+  /** Retrieves all articles, only for testing purposes */
   getArticles: Array<Maybe<Article>>;
+  /** Retrieves all articles writen by a user */
   getArticlesByUser: Array<Maybe<Article>>;
+  /** Searches 20 articles with a corresponding user by its aproximate username */
   getArticlesByUsername: Array<Maybe<Article>>;
+  /** Retrieves all the article's commentaries */
   getCommentairesByArticle: Array<Maybe<Commentaire>>;
+  /** Retrieves last 20 articles */
   getLastArticles: Array<Maybe<Article>>;
 };
 
@@ -200,7 +229,9 @@ export type SignInResponse = {
 
 export type User = {
   __typename?: 'User';
+  /** The user's unique identifier */
   id: Scalars['ID']['output'];
+  /** The user's unique username */
   username: Scalars['String']['output'];
 };
 

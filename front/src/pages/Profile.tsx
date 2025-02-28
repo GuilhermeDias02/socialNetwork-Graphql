@@ -165,7 +165,7 @@ const Profile: React.FC = () => {
           <div className="text-center"><Spinner animation="border" /></div>
         ) : (
           data?.getArticlesByUser?.length > 0 ? (
-            data.getArticlesByUser.map((article: any) => (
+            data.getArticlesByUser.map((article: string) => (
               <Card key={article.id} className="mb-3">
                 <Card.Body>
                   {editArticle?.id === article.id ? (
